@@ -2,11 +2,13 @@ import React from 'react'
 import './App.css';
 import 'antd/dist/antd.css';
 import { Cards } from './Components/Cards/Cards';
-import { Layout,Row,Col } from 'antd';
+import { Layout,Row,Col,Input, Menu,Button, Dropdown } from 'antd';
 import FooterLayout from './Components/Footer';
 import HeaderLayout from './Components/Header'
 import JsonData from './Services/JsonData/sample';
-import CommanHeader from './Components/SharedComponent';
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
+const { Search } = Input;
+const style = { padding: '20px' };
 
 const { Header,Content, Footer } = Layout;
 
@@ -14,14 +16,13 @@ const { Header,Content, Footer } = Layout;
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      search: null,
+    this.state = {      
       JsonDataDataList: JsonData.entries,
       sortType: 'desc',
       error: null,
       isLoaded: false,
     };
-  }
+  }  
   onSearch = (event) => {
     let keyword = event.target.value;
     this.setState({ search: keyword })
@@ -33,7 +34,7 @@ class App extends React.Component {
     })
   }
   render() {
-    const { JsonDataDataList, sortType,error, isLoaded, items } = this.state;
+    const { JsonDataDataList, sortType } = this.state;
     const sorted = JsonDataDataList.sort((a, b) => {
       if (sortType === "asc") {
         return a.title.localeCompare(b.title)
@@ -65,7 +66,31 @@ class App extends React.Component {
                 </Col>
           </Row>
           <Content style={{ padding: '0 50px' }}>          
-            <CommanHeader/>
+          <Row style={style}>                
+                <Col xs={24} xl={8} md={10} sm={3}>
+                    <Search
+                        placeholder="input search text"
+                        allowClear
+                        size="large"
+                        enterButton="Search"
+                        onChange={(value) => this.onSearch(value)}
+                    />
+                </Col>
+                <Col xs={24} xl={16} md={14} sm={3} style={{ textAlign: 'right' }}>
+                    <Dropdown overlay={<Menu onClick={this.handleMenuClick}>
+                        <Menu.Item key="asc" icon={<UserOutlined />}>
+                            Accending Order
+                    </Menu.Item>
+                        <Menu.Item key="desc" icon={<UserOutlined />}>
+                            Descending Order
+                    </Menu.Item>
+                    </Menu>}>
+                        <Button>
+                            Sort By Name<DownOutlined />
+                        </Button>
+                    </Dropdown>
+                </Col>
+            </Row>
             <div className="site-layout-content">
               <Row>
                 {JsonDataData}
