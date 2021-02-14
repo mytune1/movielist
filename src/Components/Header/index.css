@@ -1,0 +1,11 @@
+.header-section{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+}
+.header-section h3{
+    font-size: 32px;
+    margin-bottom: 0px;
+    padding-left: 20px;
+    color: #fff;
+}
